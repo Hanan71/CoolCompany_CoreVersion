@@ -1,0 +1,90 @@
+﻿@model CoolCompanyEstore.Models.Order
+
+@{
+    ViewData["Title"] = "Manage Order Status";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-info text-center">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">🛠️ Manage Order Status</h2>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <h5 class="card-title mb-3">Order #: @Model.Id</h5>
+            <p><strong>User:</strong> @Model.User?.UserName</p>
+            <p><strong>Total Amount:</strong> @Model.TotalAmount.ToString("0.00") SAR</p>
+
+            <form asp-action="ManageStatus" asp-controller="Admin" method="post">
+                <input type="hidden" name="Id" value="@Model.Id" />
+
+                @if (Model.Status == "Delivered")
+                {
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <input class="form-control" value="Delivered" disabled />
+                        <input type="hidden" name="Status" value="Delivered" />
+                    </div>
+                    <div class="alert alert-info">🚫 The status cannot be modified after it has become "Delivered".</div>
+                }
+                else
+                {
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" name="Status" id="status">
+                            <option value="Processing" selected="@(Model.Status == "Processing")">Processing</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Canceled" selected="@(Model.Status == "Canceled")">Canceled</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Update Status</button>
+                }
+
+                <a href="@Url.Action("SuperDashboard", "Admin")" class="btn btn-secondary ms-2">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<style>
+    .swal2-confirm.custom-confirm {
+        background-color: #0d6efd !important; /* لون primary أزرق */
+        color: white !important;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        const statusSelect = document.getElementById("status");
+        if (statusSelect) {
+            statusSelect.addEventListener("change", function () {
+                if (this.value === "Delivered") {
+                    Swal.fire({
+                        title: 'Are you sure?',
+                        text: "You can't edit after setting status to 'Delivered'.",
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, set to Delivered',
+                        cancelButtonText: 'Cancel',
+                        customClass: {
+                            confirmButton: 'custom-confirm'
+                        }
+                    }).then((result) => {
+                        if (!result.isConfirmed) {
+                            this.value = "@Model.Status";
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}
+

@@ -1,0 +1,99 @@
+﻿@model List<CoolCompanyEstore.Models.PagePermission>
+
+@{
+    ViewData["Title"] = "Manage Page Permissions";
+}
+
+<div class="container mt-5">
+    <h2>📄 Manage Page Permissions</h2>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    <form asp-action="UpdatePermissions" method="post">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Page</th>
+                    <th>Roles (comma-separated)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input asp-for="@Model[i].Page" name="updatedPermissions[@i].Page" class="form-control" />
+                        </td>
+                        <td>
+                            <input name="updatedPermissions[@i].Roles" value="@string.Join(",", Model[i].Roles)" class="form-control" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+
+<!-- لا تحتاج <body> في Razor View -->
+
+<div class="sidebar">
+    <h3>Admin Panel</h3>
+
+    <a href="@Url.Action("Index", "Home")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "Home" ? "active" : "")">
+        <i class="fa fa-home me-2"></i> Home
+    </a>
+
+    @if (User.IsInRole("User") || User.IsInRole("Admin"))
+    {
+        <a href="@Url.Action("Index", "Cart")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Cart" ? "active" : "")">
+            <i class="fa fa-user me-2"></i> Profile
+        </a>
+    }
+
+    @if (User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+    {
+        <a href="@Url.Action("SuperDashboard", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "SuperDashboard" ? "active" : "")">
+            <i class="fa fa-tachometer-alt me-2"></i> Manage Status
+        </a>
+        <a href="@Url.Action("Orders", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Orders" ? "active" : "")">
+            <i class="fa fa-shopping-cart me-2"></i> Manage Orders
+        </a>
+        <a href="@Url.Action("ManageUsers", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageUsers" ? "active" : "")">
+            <i class="fa fa-users me-2"></i> Manage Users
+        </a>
+    }
+
+    @if (User.IsInRole("SuperAdmin"))
+    {
+        <a href="@Url.Action("ManageRoles", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageRoles" ? "active" : "")">
+            <i class="fa fa-user-shield me-2"></i> Manage Roles
+        </a>
+    }
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="@Url.Action("Index", "CarouselAdmin")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "CarouselAdmin" ? "active" : "")">
+            <i class="fa fa-images me-2"></i> Manage Carousel
+        </a>
+        <a href="@Url.Action("ManageProducts", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageProducts" ? "active" : "")">
+            <i class="fa fa-box-open me-2"></i> Manage Products
+        </a>
+    }
+
+    @if (User.IsInRole("Admin") || User.IsInRole("Support"))
+    {
+        <a href="@Url.Action("ViewComplaints", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ViewComplaints" ? "active" : "")">
+            <i class="fa fa-exclamation-circle me-2"></i> View Complaints
+        </a>
+    }
+
+    <a href="@Url.Action("Logout", "Account")">
+        <i class="fa fa-sign-out-alt me-2"></i> Logout
+    </a>
+</div>

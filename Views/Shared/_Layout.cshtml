@@ -1,0 +1,305 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CoolCompanyEstore.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var isSignedIn = SignInManager.IsSignedIn(User);
+    var isSuperAdmin = false;
+
+    if (isSignedIn)
+    {
+        var user = UserManager.GetUserAsync(User).Result;
+        if (user != null)
+        {
+            var roles = UserManager.GetRolesAsync(user).Result;
+            isSuperAdmin = roles.Contains("SuperAdmin");
+        }
+    }
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Cool Company - e-store</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="~/img/logo.jpg" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600&family=Roboto&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link href="~/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/lib/lightbox/css/lightbox.min.css" rel="stylesheet" />
+
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+
+    <div class="mobile-header d-lg-none sticky-top bg-primary px-3 py-2" style="z-index: 1052;">
+        <div class="d-flex justify-content-between align-items-center">
+            <a href="/" class="navbar-brand p-0">
+                <img src="~/img/logo.jpg" alt="Logo" class="img-fluid" style="max-height: 40px;" />
+            </a>
+            <div class="d-flex align-items-center">
+                <a asp-controller="Cart" asp-action="Index" class="btn btn-primary btn-sm me-2">
+                    <i class="fa fa-shopping-cart"></i>
+                </a>
+                <div class="dropdown">
+                    <a href="#" class="dropdown-toggle text-light" data-bs-toggle="dropdown">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <div class="dropdown-menu rounded dropdown-menu-end">
+                        <a href="/" class="dropdown-item">Home</a>
+                        <a href="/Home/About" class="dropdown-item">About</a>
+                        <a href="/Home/Services" class="dropdown-item">Services</a>
+                        <a class="dropdown-item" href="/Products">Products</a>
+                        <a href="/Home/Contact" class="dropdown-item">Contact</a>
+                        <a href="/Home/Faq" class="dropdown-item">FAQ</a>
+                        <div class="dropdown-divider"></div>
+
+                        @if (isSignedIn)
+                        {
+                            <a asp-controller="Account" asp-action="EditProfile" class="dropdown-item">
+                                <i class="fas fa-user-alt me-2"></i> Edit Profile
+                            </a>
+                            <a asp-controller="Wishlist" asp-action="Index" class="dropdown-item">
+                                <i class="fas fa-heart me-2"></i> My Wishlist
+                            </a>
+                            <a href="@Url.Action("MyOrders", "Order")" class="dropdown-item">
+                                <i class="fas fa-box me-2"></i> My Orders
+                            </a>
+                            <form method="post" asp-controller="Account" asp-action="Logout" class="m-0 p-0">
+                                <button type="submit" class="btn btn-link text-dark w-100 text-start dropdown-item">
+                                    <i class="fas fa-power-off me-2"></i> Log Out
+                                </button>
+                            </form>
+
+                            @if (isSuperAdmin)
+                            {
+                                <div class="dropdown-divider"></div>
+                                <a href="/Admin/SuperDashboard" class="dropdown-item text-primary">
+                                    <i class="fas fa-tools me-2"></i> Admin Panel
+                                </a>
+                            }
+                            @if (User.IsInRole("ContentManager"))
+                            {
+                                <a href="/Content/Dashboard" class="dropdown-item text-primary">
+                                    <i class="fas fa-clipboard-list me-2"></i> Content Dashboard
+                                </a>
+                            }
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="RegisterUser" class="dropdown-item">
+                                <i class="fa fa-user me-2"></i> Register
+                            </a>
+                            <a asp-controller="Account" asp-action="Login" class="dropdown-item">
+                                <i class="fa fa-sign-in-alt me-2"></i> Login
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="desktop-header d-none d-lg-block">
+        <div class="container-fluid bg-primary px-5 topbar">
+            <div class="row gx-0 align-items-center topbar-mobile">
+                <div class="col-lg-2 text-start">
+                    <a href="/">
+                        <img src="~/img/logo.jpg" alt="Logo" class="img-fluid" style="max-height: 50px;" />
+                    </a>
+                </div>
+                <div class="col-lg-10 text-end">
+                    <div class="d-flex flex-wrap justify-content-end w-100 topbar-actions">
+                        @if (isSignedIn)
+                        {
+                            if (isSuperAdmin)
+                            {
+                                <a asp-area="Admin" asp-controller="Account" asp-action="Register" class="me-3 text-light">
+                                    <small><i class="fa fa-user me-2"></i> Register New Admin</small>
+                                </a>
+                            }
+
+                            <a asp-controller="Account" asp-action="RegisterUser" class="me-3 text-light">
+                                <small><i class="fa fa-user me-2"></i> Register</small>
+                            </a>
+
+                            <form method="post" asp-controller="Account" asp-action="Logout" class="d-inline">
+                                <button type="submit" class="btn btn-link text-light me-3 p-0" style="font-size: small;">
+                                    <i class="fa fa-sign-out-alt me-2"></i> Logout
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a asp-controller="Account" asp-action="RegisterUser" class="me-3 text-light">
+                                <small><i class="fa fa-user me-2"></i> Register</small>
+                            </a>
+                            <a asp-controller="Account" asp-action="Login" class="me-3 text-light">
+                                <small><i class="fa fa-sign-in-alt me-2"></i> Login</small>
+                            </a>
+                        }
+
+                        @if (isSignedIn)
+                        {
+                            <div class="dropdown">
+                                <a href="#" class="dropdown-toggle text-light" data-bs-toggle="dropdown">
+                                    <small><i class="fa fa-home me-2"></i>menu</small>
+                                </a>
+                                <div class="dropdown-menu rounded">
+                                    <a asp-controller="Account" asp-action="EditProfile" class="dropdown-item">
+                                        <i class="fas fa-user-alt me-2"></i> Edit Profile
+                                    </a>
+                                    <a asp-controller="Cart" asp-action="Index" class="dropdown-item">
+                                        <i class="fas fa-shopping-cart me-2"></i> My Cart
+                                    </a>
+                                    <a asp-controller="Wishlist" asp-action="Index" class="dropdown-item">
+                                        <i class="fas fa-heart me-2"></i> My Wishlist
+                                    </a>
+                                    <a href="@Url.Action("MyOrders", "Order")" class="dropdown-item">
+                                        <i class="fas fa-box me-2"></i> My Orders
+                                    </a>
+                                    <form method="post" asp-controller="Account" asp-action="Logout" class="dropdown-item m-0 p-0">
+                                        <button type="submit" class="btn btn-link text-dark w-100 text-start ps-3">
+                                            <i class="fas fa-power-off me-2"></i> Log Out
+                                        </button>
+                                    </form>
+
+                                    @if (isSuperAdmin)
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        <a href="/Admin/SuperDashboard" class="dropdown-item text-primary">
+                                            <i class="fas fa-tools me-2"></i> Admin Panel
+                                        </a>
+
+                                    }
+                                    @if (User.IsInRole("ContentManager"))
+                                    {
+                                        <div class="dropdown-divider"></div>
+                                        <a href="/Content/Dashboard" class="dropdown-item text-primary">
+                                            <i class="fas fa-clipboard-list me-2"></i> Content Dashboard
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="container-fluid position-relative p-0">
+            <nav class="navbar navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
+                <a href="/" class="navbar-brand p-0">
+                    <h1 class="m-0">
+                        <i class="fa fa-shopping-cart me-3"></i>Cool Company
+                    </h1>
+                </a>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav ms-auto py-0">
+                        <a href="/" class="nav-item nav-link">Home</a>
+                        <a href="/Home/About" class="nav-item nav-link">About</a>
+                        <a href="/Home/Services" class="nav-item nav-link">Services</a>
+                        <a class="nav-item nav-link" href="/Products">Products</a>
+                        <a href="/Home/Contact" class="nav-item nav-link">Contact</a>
+                        <a href="/Home/Faq" class="nav-item nav-link">FAQ</a>
+                    </div>
+                    <a href="/Cart" class="btn btn-primary rounded-pill py-2 px-4 ms-lg-4">
+                        <i class="fa fa-shopping-cart me-2"></i>Cart
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <main role="main" class="pb-3 main-content">
+        @RenderBody()
+
+        @if (ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" &&
+       ViewContext.RouteData.Values["Action"]?.ToString() == "Index")
+        {
+           <div class="container py-4">
+               <h4 class="text-dark mb-3">Payments</h4>
+               <div class="footer-bank-card d-flex align-items-center flex-wrap">
+                   <a href="#" class="me-3 mb-2"><img src="~/img/apple-pay.jpg" alt="Apple Pay" /></a>
+                   <a href="#" class="me-3 mb-2"><img src="~/img/STC.jpg" alt="STC Pay" /></a>
+                   <a href="#" class="me-3 mb-2"><img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" /></a>
+                   <a href="#" class="me-3 mb-2"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="MasterCard" /></a>
+                   <a href="#" class="me-3 mb-2"><img src="~/img/Mada.jpg" alt="Mada" /></a>
+               </div>
+           </div>
+        }
+    </main>
+
+    <div class="container-fluid footer py-5">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-white">Get In Touch</h4>
+                        <a href="/Home/Contact#map"><i class="fas fa-home me-2"></i> Anas Ibn Malik Rd, Riyadh</a>
+                        <a href="mailto:info@coolcompany.com"><i class="fas fa-envelope me-2"></i> info@coolCompany.com</a>
+                        <a href="#"><i class="fas fa-phone me-2"></i> +966550000000</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-white">Company</h4>
+                        <a href="/Home/About" class="text-white bg-dark px-2 py-1 rounded">
+                            <i class="fas fa-angle-right me-2"></i> About
+                        </a>
+                        <a href="/Home/Services"><i class="fas fa-angle-right me-2"></i> Services</a>
+                        <img src="~/img/logo.jpg" alt="Company Image" class="mt-3" style="width: 50%; height: auto;">
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="footer-item d-flex flex-column">
+                        <h4 class="mb-4 text-white">Support</h4>
+                        <a href="/Home/Contact"><i class="fas fa-angle-right me-2"></i> Contact</a>
+                        <a href="/Home/Privacy">
+                            <i class="fas fa-angle-right me-2"></i> Privacy Policy
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/easing/easing.min.js"></script>
+    <script src="~/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/lib/lightbox/js/lightbox.min.js"></script>
+    <script src="~/js/main.js"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <div class="container-fluid copyright text-body py-4 bg-dark">
+        <div class="container">
+            <div class="row g-4 align-items-center">
+                <div class="col-md-6 text-center text-md-end text-white">
+                    &copy; 2025 Cool Company. All rights reserved
+                </div>
+                <div class="col-md-6 text-center text-md-start text-white">
+                    Developed by <a class="text-white" href="https://hanan71.github.io/cv/">Hanan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

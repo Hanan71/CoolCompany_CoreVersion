@@ -1,0 +1,123 @@
+﻿@model CoolCompanyEstore.Models.CarouselAdminViewModel
+
+@{
+    ViewData["Title"] = "Edit Carousel Slide";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Edit Carousel Slide</h2>
+
+    <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <input type="hidden" asp-for="NewSlide.Id" />
+
+        <div class="mb-3">
+            <label class="form-label">Current Image</label><br />
+            <img src="@Url.Action("GetCarouselImage", "CarouselAdmin", new { id = Model.NewSlide.Id })"
+                 alt="Current Image" class="img-fluid mb-2" style="max-height: 200px;" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Change Image (or add the same one again)</label>
+            <input type="file" name="ImageFile" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.Title" class="form-label"></label>
+            <input asp-for="NewSlide.Title" class="form-control" />
+            <span asp-validation-for="NewSlide.Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.ShortParagraph" class="form-label"></label>
+            <textarea asp-for="NewSlide.ShortParagraph" class="form-control"></textarea>
+            <span asp-validation-for="NewSlide.ShortParagraph" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.ButtonLabel" class="form-label"></label>
+            <input asp-for="NewSlide.ButtonLabel" class="form-control" />
+            <span asp-validation-for="NewSlide.ButtonLabel" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.ButtonLink" class="form-label"></label>
+            <input asp-for="NewSlide.ButtonLink" class="form-control" />
+            <span asp-validation-for="NewSlide.ButtonLink" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.Subtitle" class="form-label"></label>
+            <input asp-for="NewSlide.Subtitle" class="form-control" />
+            <span asp-validation-for="NewSlide.Subtitle" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.Description" class="form-label"></label>
+            <textarea asp-for="NewSlide.Description" class="form-control"></textarea>
+            <span asp-validation-for="NewSlide.Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.ButtonText" class="form-label"></label>
+            <input asp-for="NewSlide.ButtonText" class="form-control" />
+            <span asp-validation-for="NewSlide.ButtonText" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NewSlide.DisplayOrder" class="form-label"></label>
+            <input asp-for="NewSlide.DisplayOrder" class="form-control" />
+            <span asp-validation-for="NewSlide.DisplayOrder" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <text>toastr.success('@TempData["SuccessMessage"]');</text>
+        }
+
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <text>toastr.error('@TempData["ErrorMessage"]');</text>
+        }
+
+                //   التنبيه عند عدم رفع صورة
+        document.querySelector('form').addEventListener('submit', function (e) {
+            var fileInput = document.querySelector('input[name="ImageFile"]');
+
+            if (!fileInput.value) {
+                e.preventDefault(); // إيقاف إرسال النموذج
+                toastr.error("You didn't add a picture");
+            }
+        });
+    </script>
+}
+
+

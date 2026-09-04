@@ -1,0 +1,43 @@
+﻿@model List<CoolCompanyEstore.Models.PagePermission>
+
+@{
+    ViewData["Title"] = "Manage Page Permissions";
+    string[] allRoles = { "SuperAdmin", "ContentManager", "NormalUser", "Moderator" };
+}
+
+<h2>🔐 Manage Page Permissions</h2>
+
+<form asp-action="UpdatePermissions" method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Page</th>
+                <th>Roles</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>
+                        <input type="text" name="@($"[{i}].Page")" value="@Model[i].Page" class="form-control" />
+                    </td>
+                    <td>
+                        @foreach (var role in allRoles)
+                        {
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="@($"[{i}].Roles")"
+                                       value="@role"
+                                       @(Model[i].Roles.Contains(role) ? "checked" : "") />
+                                <label class="form-check-label">@role</label>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">Save</button>
+</form>
