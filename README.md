@@ -26,10 +26,13 @@ A full-stack modern e-commerce web application engineered with **ASP.NET Core (.
 ---
 Store 
 <img width="1305" height="809" alt="Screenshot 2025-09-01 at 11 41 11 PM" src="https://github.com/user-attachments/assets/fbc8c595-48ca-484f-90b2-2aa4ac7fb72b" />
-
+Products
 <img width="1291" height="839" alt="Screenshot 2025-09-01 at 11 43 11 PM" src="https://github.com/user-attachments/assets/afea7be5-33a3-44f3-82d3-34a6e7fd17cb" />
+Admin Panel
 <img width="1301" height="879" alt="Screenshot 2025-09-01 at 11 48 26 PM" src="https://github.com/user-attachments/assets/92930857-5145-4e6d-8846-2fc445b12026" />
+Work on tablet
 <img width="2612" height="1781" alt="Screenshot 2025-09-01 at 11 43 54 PM" src="https://github.com/user-attachments/assets/77650b81-e2d0-48a4-87bc-21323628c93a" />
+work on Phones
 <img width="1276" height="837" alt="Screenshot 2025-09-02 at 12 09 13 AM" src="https://github.com/user-attachments/assets/abcbb4ed-b897-4d84-bb81-85ac8cee4558" />
 
 ---
