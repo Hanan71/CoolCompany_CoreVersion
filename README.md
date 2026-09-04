@@ -1,0 +1,1 @@
+# CoolCompany_CoreVersion
