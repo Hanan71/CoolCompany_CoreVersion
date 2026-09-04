@@ -94,8 +94,4 @@ All production credentials, active passwords, and sensitive keys have been scrub
 }
 ```
 
-<a href="https://canva.link/n0iy1dpzt9h0w3u" style="text-decoration: none;">
-  <span style="background-color: #1F2428; color: #FFFFFF; padding: 8px 18px; font-weight: bold; border-radius: 6px; border: 2px solid #D4AF37; display: inline-block; font-family: sans-serif; font-size: 13px;">
-    🎓 University Training Presentation
-  </span>
-</a>
+[![University Training Presentation](https://img.shields.io/badge/University%20Presentation-Canva%20Slides-D4AF37?style=for-the-badge&logo=canva&logoColor=white&labelColor=000000)](https://canva.link/n0iy1dpzt9h0w3u)  👈 Click to View
