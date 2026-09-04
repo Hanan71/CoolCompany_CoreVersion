@@ -135,5 +135,4 @@ dotnet run
 All production credentials, active passwords, and sensitive keys have been scrubbed and replaced with generic development placeholders prior to committing to version control.
 }
 ```
-
-[![University Training Presentation](https://img.shields.io/badge/University%20Presentation-Canva%20Slides-D4AF37?style=for-the-badge&logo=canva&logoColor=white&labelColor=000000)](https://canva.link/n0iy1dpzt9h0w3u)  👈 Click to View
+[![University Training Presentation](https://img.shields.io/badge/University%20Presentation-Canva%20Slides-D4AF37?style=for-the-badge&logo=canva&logoColor=white&labelColor=0056B3)](https://canva.link/n0iy1dpzt9h0w3u) 👈 Click to View
