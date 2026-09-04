@@ -3,7 +3,18 @@
 A full-stack modern e-commerce web application engineered with **ASP.NET Core (.NET)**, **Entity Framework Core**, and **Bootstrap**. The platform provides full-featured product cataloging, category filtering, responsive browsing, and robust database architecture.
 
 ---
+### 🏢 Cooperative Training & Mentorship
 
+<p align="left">
+  <img width="70" align="right" alt="Jawraa Logo" src="https://github.com/user-attachments/assets/537d8b0a-1a0c-4e9b-8b23-13292f1aaa32" />
+  This project was developed during the <b>Cooperative Training Program</b> at <b>Jawraa (شركة جوراء)</b>.
+  <br><br>
+  • <b>Host Organization:</b> <a href="https://jawraa.com/">Jawraa</a><br>
+  • <b>Supervisor & Mentor:</b> <a href="https://www.linkedin.com/in/nahla-mohammed-ahmed/">Eng. Nahla Mohammed Ahmed</a>
+</p>
+<br clear="right"/>
+
+---
 ## 🚀 Key Features
 - **Responsive UI/UX:** Built with Bootstrap, fully responsive across desktop, tablet, and mobile screens.
 - **Product & Category Showcase:** Dynamic browsing for products, featured offers, and shopping categories.
