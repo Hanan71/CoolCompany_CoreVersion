@@ -26,21 +26,11 @@ Because **Microsoft SQL Server** does not run natively on macOS (especially Appl
 
 ### 1. Prerequisites
 
-* **Docker Desktop**
-  [Docker Desktop](https://www.docker.com/products/docker-desktop/) installed and running.
-  
-  <img width="905" height="339" alt="Docker Desktop" src="https://github.com/user-attachments/assets/8e2e3e86-f91e-4590-9b8c-9068da1134d4" />
-
-* **Azure Data Studio**
-  [Azure Data Studio](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio) installed for database GUI management.
-  
-  <img width="576" height="183" alt="Azure Data Studio" src="https://github.com/user-attachments/assets/446ede7a-7721-42f6-b6d0-9a9771782baa" />
-
-* **.NET SDK**
-  [.NET SDK](https://dotnet.microsoft.com/download) matching the project version.
-  
-  <img width="300" height="168" alt=".NET SDK" src="https://github.com/user-attachments/assets/8b8f688f-5c38-4d2f-ab54-7e9ec5265d39" />
-
+| Tool | Status & Reference | Preview |
+| :--- | :--- | :---: |
+| **Docker Desktop** | [Download & Install](https://www.docker.com/products/docker-desktop/) | <img width="380" alt="Docker Desktop" src="https://github.com/user-attachments/assets/8e2e3e86-f91e-4590-9b8c-9068da1134d4" /> |
+| **Azure Data Studio** | [Download & Install](https://learn.microsoft.com/en-us/azure-data-studio/download-azure-data-studio) | <img width="380" alt="Azure Data Studio" src="https://github.com/user-attachments/assets/446ede7a-7721-42f6-b6d0-9a9771782baa" /> |
+| **.NET SDK** | [Download & Install](https://dotnet.microsoft.com/download) | <img width="380" alt=".NET SDK" src="https://github.com/user-attachments/assets/8b8f688f-5c38-4d2f-ab54-7e9ec5265d39" /> |
 
 
 ---
@@ -85,8 +75,12 @@ dotnet ef database update
 
 3- Launch the application:
 dotnet run
+}
 
+```
 🔒 Security Notice
 All production credentials, active passwords, and sensitive keys have been scrubbed and replaced with generic development placeholders prior to committing to version control.
+}
+```
 
 
