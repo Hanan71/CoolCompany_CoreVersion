@@ -1,0 +1,5 @@
+﻿{
+  "/Admin": [ "SuperAdmin" ],
+  "/Dashboard": [ "SuperAdmin", "ContentManager" ],
+  "/Products": [ "Admin", "ContentManager" ]
+}
