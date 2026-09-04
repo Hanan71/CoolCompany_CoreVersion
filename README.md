@@ -136,16 +136,8 @@ All production credentials, active passwords, and sensitive keys have been scrub
 }
 ```
 
-<div align="center">
+> 🚀 **You are viewing the latest, most up-to-date version** of this project. Looking for the earlier baseline? Explore the [Legacy ASP.NET MVC Repository](https://github.com/Hanan71/CoolCompanyMVC/tree/main)
 
-[![Latest Release](https://img.shields.io/badge/Current%20Version-v2.0%20(Latest%20&%20Enhanced)-2ea44f?style=for-the-badge&logo=github&logoColor=white&labelColor=1a1e24)](https://github.com/Hanan71/CoolCompany_CoreVersion)
-[![Legacy Version](https://img.shields.io/badge/Legacy%20Version-v1.0%20(Initial%20MVC)-gray?style=for-the-badge&logo=git&logoColor=white&labelColor=555555)](https://github.com/Hanan71/CoolCompanyMVC/tree/main)
-
-<p>
-  🚀 <b>You are viewing the latest, most up-to-date version</b> (enhanced architecture, responsive upgrades, and modern database integration).<br>
-  Looking for the earlier baseline? You can explore the <a href="https://github.com/Hanan71/CoolCompanyMVC/tree/main">Initial ASP.NET MVC Repository</a>.
-</p>
-
-</div>
+---
 
 [![University Training Presentation](https://img.shields.io/badge/University%20Presentation-Canva%20Slides-D4AF37?style=for-the-badge&logo=canva&logoColor=white&labelColor=0056B3)](https://canva.link/n0iy1dpzt9h0w3u) 👈 Click to View
