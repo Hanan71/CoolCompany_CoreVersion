@@ -1,5 +1,5 @@
-{
-  "__RequestVerificationToken": [],
-  "ManageCarousel": [ "SuperAdmin", "ContentManager" ],
-  "ManageProducts": [ "SuperAdmin", "ContentManager" ]
+﻿{
+  "/Admin": [ "SuperAdmin" ],
+  "/Dashboard": [ "SuperAdmin", "ContentManager" ],
+  "/Products": [ "Admin", "ContentManager" ]
 }
