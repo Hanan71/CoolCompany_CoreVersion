@@ -1,4 +1,13 @@
-# Cool Company - E-Store Web Application 🛒
+<table>
+  <tr>
+    <td valign="middle">
+      <h1 style="margin: 0;">Cool Company - E-Store Web Application 🛒</h1>
+    </td>
+    <td valign="middle">
+      <img width="160" alt="logo" src="https://github.com/user-attachments/assets/c0dfcaa6-04f3-4411-afe2-f382b9596e0d" />
+    </td>
+  </tr>
+</table>
 
 A full-stack modern e-commerce web application engineered with **ASP.NET Core (.NET)**, **Entity Framework Core**, and **Bootstrap**. The platform provides full-featured product cataloging, category filtering, responsive browsing, and robust database architecture.
 
@@ -15,12 +24,14 @@ A full-stack modern e-commerce web application engineered with **ASP.NET Core (.
 <br clear="right"/>
 
 ---
-## 🚀 Key Features
-- **Responsive UI/UX:** Built with Bootstrap, fully responsive across desktop, tablet, and mobile screens.
-- **Product & Category Showcase:** Dynamic browsing for products, featured offers, and shopping categories.
-- **Clean Architecture:** Separation of concerns following ASP.NET Core MVC / Web API standards.
-- **Database Migrations:** Pre-configured Entity Framework Core migrations for automated schema generation.
 
+## 🚀 Key Features
+- **Fully Responsive Across All Devices:** Engineered using Bootstrap to deliver an optimal, fluid browsing experience across desktop monitors, tablets, and mobile smartphones.
+- **Role-Based Access Control (RBAC):** Multi-tier authorization system providing distinct portals and permissions for Super Admins, Store Managers (catalog/table/content editors), and Customers (shoppers).
+- **Product & Category Showcase:** Dynamic browsing for products, featured offers, and shopping categories with real-time inventory views.
+- **Clean Architecture:** Separation of concerns following ASP.NET Core MVC standards to ensure maintainability and modular design.
+- **Database Migrations:** Pre-configured Entity Framework Core migrations for automated schema generation and data seeding.
+  
 ---
 
 ## 🛠️ Tech Stack
