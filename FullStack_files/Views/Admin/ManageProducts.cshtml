@@ -1,0 +1,84 @@
+﻿@model List<CoolCompanyEstore.Models.Product>
+
+@{
+    ViewData["Title"] = "Manage Products";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <div class="mb-3 text-end">
+        <a asp-controller="Admin" asp-action="CreateProduct" class="btn btn-primary">
+            + Add New Product
+        </a>
+    </div>
+
+    <div class="table-responsive shadow rounded d-none d-md-block">
+        <table class="table table-hover table-bordered text-center align-middle mb-0">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Price (SAR)</th>
+                    <th>Category</th>
+                    <th style="width: 180px;">Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>
+                            <img src="@Url.Content(p.Images.FirstOrDefault()?.ImagePath ?? "/img/default-product.jpg")" alt="@p.Name" width="80" />
+                        </td>
+                        <td>@p.Name</td>
+                        <td>@p.Price.ToString("0.00")</td>
+                        <td>@p.Category?.Name</td>
+                        <td>
+                            <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn btn-sm btn-primary me-1">Edit</a>
+                            <form asp-action="DeleteProduct" asp-route-id="@p.Id" method="post" class="d-inline"
+                                  onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-md-none">
+        @foreach (var p in Model)
+        {
+            <div class="card shadow-sm border-0 mb-3">
+                <div class="row g-0">
+                    <div class="col-4">
+                        <img src="@Url.Content(p.Images.FirstOrDefault()?.ImagePath ?? "/img/default-product.jpg")" class="img-fluid rounded-start" alt="@p.Name">
+                    </div>
+                    <div class="col-8">
+                        <div class="card-body">
+                            <h5 class="card-title mb-1">@p.Name</h5>
+                            <p class="card-text text-muted mb-2">Price: @p.Price.ToString("0.00") SAR</p>
+                            <p class="card-text"><small class="text-muted">Category: @p.Category?.Name</small></p>
+                            <div class="d-flex justify-content-end mt-2">
+                                <a asp-action="EditProduct" asp-route-id="@p.Id" class="btn btn-sm btn-primary me-2">Edit</a>
+                                <form asp-action="DeleteProduct" asp-route-id="@p.Id" method="post" class="d-inline"
+                                      onsubmit="return confirm('Are you sure you want to delete this product?');">
+                                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="text-center mt-4">
+    <button onclick="history.back()" class="btn btn-outline-primary">
+        ← Back to Previous Page
+    </button>
+</div>

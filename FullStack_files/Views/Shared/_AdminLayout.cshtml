@@ -1,0 +1,270 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using CoolCompanyEstore.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Admin Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link rel="shortcut icon" href="~/img/logo.jpg" />
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        /* Desktop Sidebar Styles */
+        @@media (min-width: 768px) {
+            body {
+                display: flex;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .sidebar {
+                width: 340px;
+                background-color: #084298;
+                color: white;
+                padding: 20px;
+                border-radius: 0 15px 15px 0;
+                box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                position: fixed;
+                height: 100%;
+                top: 0;
+                left: 0;
+                z-index: 1050;
+                overflow-y: auto;
+            }
+
+            main {
+                flex-grow: 1;
+                padding: 30px;
+                margin-left: 340px;
+                overflow-y: auto;
+            }
+        }
+
+        .sidebar-menu h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 1rem;
+            color: white;
+        }
+
+        .sidebar-menu a, .offcanvas-body a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin: 10px 0;
+            padding: 10px 15px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+            .sidebar-menu a:hover,
+            .sidebar-menu a.active,
+            .offcanvas-body a:hover,
+            .offcanvas-body a.active {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+        .content-header {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 5px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .shadow-sm {
+            box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.05) !important;
+        }
+
+        /* Mobile Styles - Adjustments for smaller screens */
+        @@media (max-width: 767.98px) {
+            body {
+                display: block;
+            }
+
+            main {
+                margin-left: 0;
+            }
+
+            .offcanvas-body {
+                padding: 1rem;
+                background-color: #084298;
+            }
+
+            .offcanvas-header {
+                border-bottom: 1px solid rgba(255,255,255,0.3);
+            }
+
+            .offcanvas-title {
+                color: white;
+            }
+
+            .sidebar-toggler {
+                position: fixed; /* Keep it fixed so it doesn't disappear */
+                bottom: 15px; /* Place it at the bottom */
+                left: 15px;
+                z-index: 1060; /* Higher z-index to be on top of everything */
+            }
+
+            .content-header {
+                margin-bottom: 70px; /* Add space for the fixed button at the bottom */
+            }
+            /* Apply the same sidebar styles to offcanvas menu with high priority */
+            .offcanvas {
+                width: 340px !important;
+                border-radius: 0 15px 15px 0 !important;
+                box-shadow: 0 0 10px rgba(0,0,0,0.2) !important;
+            }
+
+            .offcanvas-body {
+                overflow-y: auto;
+            }
+
+                .offcanvas-body h3 {
+                    color: white;
+                }
+        }
+    </style>
+</head>
+
+<body>
+    <button class="btn btn-primary sidebar-toggler d-md-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="sidebar d-none d-md-block">
+        <div class="sidebar-menu">
+            <h3>Admin Panel</h3>
+            <a href="@Url.Action("Index", "Home")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "Home" ? "active" : "")">
+                <i class="fa fa-home me-2"></i> Home
+            </a>
+            <a href="@Url.Action("Index", "Cart")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Cart" ? "active" : "")">
+                <i class="fa fa-user me-2"></i> Profile
+            </a>
+
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <a href="@Url.Action("SuperDashboard", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "SuperDashboard" ? "active" : "")">
+                    <i class="fa fa-tachometer-alt me-2"></i> Manage Status
+                </a>
+                <a href="@Url.Action("Orders", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Orders" ? "active" : "")">
+                    <i class="fa fa-shopping-cart me-2"></i> Manage Orders
+                </a>
+                <a href="@Url.Action("ManageUsers", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageUsers" ? "active" : "")">
+                    <i class="fa fa-users me-2"></i> Manage Users
+                </a>
+                <a href="@Url.Action("Register", "Account", new { area = "Admin" })"
+                   class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Register" ? "active" : "")">
+                    <i class="fa fa-user-plus me-2"></i> Register New Admin
+                </a>
+            }
+
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("ContentManager"))
+            {
+                <a href="@Url.Action("Index", "CarouselAdmin")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "CarouselAdmin" ? "active" : "")">
+                    <i class="fa fa-images me-2"></i> Manage Carousel
+                </a>
+                <a href="@Url.Action("ManageProducts", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageProducts" ? "active" : "")">
+                    <i class="fa fa-box-open me-2"></i> Manage Products
+                </a>
+            }
+
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <a href="@Url.Action("ViewComplaints", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ViewComplaints" ? "active" : "")">
+                    <i class="fa fa-exclamation-circle me-2"></i> View Complaints
+                </a>
+            }
+
+            <a href="@Url.Action("Logout", "Account")">
+                <i class="fa fa-sign-out-alt me-2"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="offcanvas offcanvas-start d-md-none" tabindex="-1" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasSidebarLabel">Admin Panel</h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <h3>Admin Panel</h3>
+            <a href="@Url.Action("Index", "Home")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "Home" ? "active" : "")">
+                <i class="fa fa-home me-2"></i> Home
+            </a>
+            <a href="@Url.Action("Index", "Cart")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Cart" ? "active" : "")">
+                <i class="fa fa-user me-2"></i> Profile
+            </a>
+
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <a href="@Url.Action("SuperDashboard", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "SuperDashboard" ? "active" : "")">
+                    <i class="fa fa-tachometer-alt me-2"></i> Manage Status
+                </a>
+                <a href="@Url.Action("Orders", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Orders" ? "active" : "")">
+                    <i class="fa fa-shopping-cart me-2"></i> Manage Orders
+                </a>
+                <a href="@Url.Action("ManageUsers", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageUsers" ? "active" : "")">
+                    <i class="fa fa-users me-2"></i> Manage Users
+                </a>
+                <a href="@Url.Action("Register", "Account", new { area = "Admin" })"
+                   class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "Register" ? "active" : "")">
+                    <i class="fa fa-user-plus me-2"></i> Register New Admin
+                </a>
+            }
+
+            @if (User.IsInRole("SuperAdmin") || User.IsInRole("ContentManager"))
+            {
+                <a href="@Url.Action("Index", "CarouselAdmin")" class="@( (ViewContext.RouteData.Values["controller"]?.ToString() ?? "") == "CarouselAdmin" ? "active" : "")">
+                    <i class="fa fa-images me-2"></i> Manage Carousel
+                </a>
+                <a href="@Url.Action("ManageProducts", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ManageProducts" ? "active" : "")">
+                    <i class="fa fa-box-open me-2"></i> Manage Products
+                </a>
+            }
+
+            @if (User.IsInRole("SuperAdmin"))
+            {
+                <a href="@Url.Action("ViewComplaints", "Admin")" class="@( (ViewContext.RouteData.Values["action"]?.ToString() ?? "") == "ViewComplaints" ? "active" : "")">
+                    <i class="fa fa-exclamation-circle me-2"></i> View Complaints
+                </a>
+            }
+
+            <a href="@Url.Action("Logout", "Account")">
+                <i class="fa fa-sign-out-alt me-2"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <main>
+        <div class="content-header shadow-sm">
+            <h1>Welcome to Admin Dashboard</h1>
+            <p class="mb-0">Use the sidebar to manage the system.</p>
+        </div>
+
+        @RenderBody()
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
+

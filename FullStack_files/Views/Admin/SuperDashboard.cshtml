@@ -1,0 +1,94 @@
+﻿@model List<CoolCompanyEstore.Models.Order>
+
+@{
+    ViewData["Title"] = "Super Admin Dashboard";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    /* تنسيقات خاصة للكاروسيل على الهاتف */
+    @@media (max-width: 767.98px) {
+        .carousel-item .card {
+            margin-bottom: 1rem; /* لإضافة مسافة بين البطاقات */
+        }
+
+        .carousel-control-prev, .carousel-control-next {
+            width: 10%;
+        }
+
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+        }
+    }
+</style>
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center">Super Admin Dashboard⚔️</h2>
+
+    <div id="dashboardCarousel" class="carousel slide d-md-none" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            @{
+                // تجميع الطلبات في مجموعات من 3
+                var ordersInSlides = Model.Chunk(3).ToList();
+                for (int i = 0; i < ordersInSlides.Count; i++)
+                {
+                    var chunk = ordersInSlides[i];
+                    <div class="carousel-item @(i == 0 ? "active" : "")">
+                        @foreach (var order in chunk)
+                        {
+                            var firstImage = order.Items?.FirstOrDefault()?.Product?.Images.FirstOrDefault()?.ImagePath ?? "";
+                            <div class="card shadow-sm border-0 h-100">
+                                <div class="card-body text-center">
+                                    @if (!string.IsNullOrEmpty(firstImage))
+                                    {
+                                        <img src="@Url.Content(firstImage)" class="img-fluid mb-3 rounded shadow-sm" style="max-height: 120px;" />
+                                    }
+                                    else
+                                    {
+                                        <div class="display-4 mb-3">📦</div>
+                                    }
+                                    <h5 class="card-title text-primary dark-primary">Order #@order.Id</h5>
+                                    <p class="card-text">Placed by @order.FullName</p>
+                                    <a asp-controller="Admin" asp-action="ManageStatus" asp-route-id="@order.Id" class="btn btn-secondary">Manage Status</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            }
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 d-none d-md-flex">
+        @foreach (var order in Model)
+        {
+            var firstImage = order.Items?.FirstOrDefault()?.Product?.Images.FirstOrDefault()?.ImagePath ?? "";
+            <div class="col">
+                <div class="card shadow-sm border-0 h-100">
+                    <div class="card-body text-center">
+                        @if (!string.IsNullOrEmpty(firstImage))
+                        {
+                            <img src="@Url.Content(firstImage)" class="img-fluid mb-3 rounded shadow-sm" style="max-height: 120px;" />
+                        }
+                        else
+                        {
+                            <div class="display-4 mb-3">📦</div>
+                        }
+                        <h5 class="card-title text-primary dark-primary">Order #@order.Id</h5>
+                        <p class="card-text">Placed by @order.FullName</p>
+                        <a asp-controller="Admin" asp-action="ManageStatus" asp-route-id="@order.Id" class="btn btn-secondary">Manage Status</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

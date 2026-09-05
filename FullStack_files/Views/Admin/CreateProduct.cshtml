@@ -1,0 +1,144 @@
+﻿@model CoolCompanyEstore.ViewModels.ProductFormViewModel
+
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+
+@{
+    ViewData["Title"] = "Add New Product";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+<div class="container my-4">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+    {
+        <div class="alert alert-danger">
+            <strong>Validation errors:</strong>
+            <ul>
+                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    <li>@error.ErrorMessage</li>
+                }
+            </ul>
+        </div>
+    }
+
+    <h2>Add New Product (Admin Panel)</h2>
+
+    <form asp-action="CreateProduct" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SKU" class="form-label"></label>
+            <input asp-for="SKU" class="form-control" />
+            <span asp-validation-for="SKU" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFiles" class="form-label d-flex align-items-center">
+                Product Images <small class="text-muted mx-2">*You can select more than 1 image eg →</small>
+                <img src="~/img/example.jpg" alt="Upload Multiple Images Example" style="width: 190px; margin-left: 15px; border: 1px solid #ccc; box-shadow: 2px 2px 5px #888; border-radius: 5px;" />
+            </label>
+            <input asp-for="ImageFiles" type="file" class="form-control" multiple />
+            <span asp-validation-for="ImageFiles" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="CategoryId" class="form-label"></label>
+            <select asp-for="CategoryId" class="form-control"
+                    asp-items="@(new SelectList(Model.Categories ?? new List<CoolCompanyEstore.Models.Category>(), "Id", "Name"))">
+                <option value="">-- Select Category --</option>
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Available Colors</label>
+            <div class="d-flex flex-wrap gap-2">
+                @{
+                    var availableColors = Model.AvailableColors ?? new List<string> { "Black", "White", "Blue", "Red", "Yellow" };
+                    var selectedColors = Model.SelectedColors ?? new List<string>();
+                }
+                @foreach (var color in availableColors)
+                {
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox"
+                               name="SelectedColors" value="@color"
+                               @(selectedColors.Contains(color, StringComparer.OrdinalIgnoreCase) ? "checked" : "") />
+                        <label class="form-check-label">@color</label>
+                    </div>
+                }
+            </div>
+            <div class="mt-2">
+                <label asp-for="CustomColor" class="form-label"></label>
+                <input asp-for="CustomColor" class="form-control" placeholder="e.g., Orange" />
+                <span asp-validation-for="CustomColor" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Available Sizes</label>
+            <div class="d-flex flex-wrap gap-2">
+                @{
+                    var availableSizes = Model.AvailableSizes ?? new List<string> { "S", "M", "L", "XL", "XXL" };
+                    var selectedSizes = Model.SelectedSizes ?? new List<string>();
+                }
+                @foreach (var size in availableSizes)
+                {
+                    <div class="form-check me-3">
+                        <input class="form-check-input" type="checkbox"
+                               name="SelectedSizes" value="@size"
+                               @(selectedSizes.Contains(size, StringComparer.OrdinalIgnoreCase) ? "checked" : "") />
+                        <label class="form-check-label">@size</label>
+                    </div>
+                }
+            </div>
+            <div class="mt-2">
+                <label asp-for="CustomSize" class="form-label"></label>
+                <input asp-for="CustomSize" class="form-control" placeholder="e.g., XXL" />
+                <span asp-validation-for="CustomSize" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label"></label>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Product</button>
+    </form>
+
+
+    <div class="text-center mt-4">
+        <a asp-controller="Admin" asp-action="ManageProducts" class="btn btn-outline-primary">
+            ← Back to Manage Products
+        </a>
+    </div>
+</div>
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
