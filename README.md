@@ -11,9 +11,9 @@
 
 A full-stack modern e-commerce web application engineered with **ASP.NET Core (.NET)**, **Entity Framework Core**, and **Bootstrap**. The platform provides full-featured product cataloging, category filtering, responsive browsing, and robust database architecture.
 
-👉 To access the complete version, visit:
+ To access the complete version, visit:
 
-[![FullStack Version](https://img.shields.io/badge/FullStack-Version-007ACC?style=for-the-badge&logo=github&logoColor=white&labelColor=555555&color=007ACC)](https://github.com/Hanan71/CoolCompany_CoreVersion/tree/main/FullStack_files)
+[![FullStack Version](https://img.shields.io/badge/FullStack-Version-007ACC?style=for-the-badge&logo=github&logoColor=white&labelColor=555555&color=007ACC)](https://github.com/Hanan71/CoolCompany_CoreVersion/tree/main/FullStack_files)  👈
 
 ---
 ### 🏢 Cooperative Training & Mentorship
