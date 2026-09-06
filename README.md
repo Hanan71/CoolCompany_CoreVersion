@@ -61,6 +61,9 @@ A full-stack modern e-commerce web application engineered with **ASP.NET Core (.
 </table>
 
 ---
+> 🛍️ **Live Preview:** You can explore the full storefront experience and interact with the homepage directly via the [CoolCompany Live Demo](https://hanan71.github.io/CoolCompany_CoreVersion/).
+
+---
 
 ## 🚀 Key Features
 - **Fully Responsive Across All Devices:** Engineered using Bootstrap to deliver an optimal, fluid browsing experience across desktop monitors, tablets, and mobile smartphones.
